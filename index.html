@@ -104,7 +104,7 @@
 
 <body>
   <center><a id="title" onClick="colorPixels()">instant <span>ART</span></a>
-    <a onClick="drawEasterEgg()"><p id="text">Not just squares!</p></a>
+    <a onClick="differentShapes()"><p id="text">Not just rectangles!</p></a>
 
   <div id="container"><a onClick="toggleSpin()"><canvas id="canvas" height="600px" width="600px"></canvas></a></div>
 
@@ -145,20 +145,90 @@
       ctx.fillRect(0,0,c.height,c.width);
     }
     for(var i = 0; i < numberOfSquares; i++){
-      x = Math.floor(Math.random() * c.width) + 1;
-      y = Math.floor(Math.random() * c.height) + 1;
+      x = Math.floor(Math.random() * c.width) - 20;
+      y = Math.floor(Math.random() * c.height) - 20;
       pixelSize = Math.floor(Math.random() * 100) + 20;
       ctx.fillStyle = '#'+ Math.random().toString(16).slice(-6);
       ctx.fillRect(x,y,pixelSize+Math.floor(Math.random() * 40),pixelSize+Math.floor(Math.random() * 40));
-      if(x == c.width-pixelSize){
-        x = 0;
-        y += pixelSize;
-      }
-      else{
-        x += pixelSize;
+    }
+  }
+
+  function differentShapes(){
+    var x = 0;
+    var y = 0;
+    var numberOfShapes = Math.floor(Math.random() * 99) + 1;
+    ctx.clearRect(0, 0, c.width, c.height);
+    if(Math.floor(Math.random() * 10)<2){
+      ctx.fillStyle = '#'+ Math.random().toString(16).slice(-6);
+      ctx.fillRect(0,0,c.height,c.width);
+    }
+    for(var i = 0; i < numberOfShapes; i++){
+      x = Math.floor(Math.random() * c.width) - 20;
+      y = Math.floor(Math.random() * c.height) - 20;
+      pixelSize = Math.floor(Math.random() * 100) + 20;
+      ctx.fillStyle = '#'+ Math.random().toString(16).slice(-6);
+      var random = Math.floor(Math.random() * 3);
+      switch(random){
+        case 0:
+            drawSquare(x,y,pixelSize);
+          break;
+        case 1:
+            drawTriangle(x,y,pixelSize);
+          break;
+        case 2:
+            drawCircle(x,y,pixelSize);
+          break;
       }
     }
   }
+
+  function drawTriangle(x,y, size){
+    ctx.moveTo(x, y);
+    var random = Math.floor(Math.random() * 4);
+        switch(random){
+          case 0:
+            ctx.beginPath();
+            ctx.lineTo(x+size, y);
+            ctx.lineTo(x+size/2, y+((size * Math.sqrt(3))/2));
+            ctx.lineTo(x, y);
+            ctx.fill();
+            break;
+          case 1:
+            ctx.beginPath();
+            ctx.moveTo(x, y+size);
+            ctx.lineTo(x+size/2, y+(size-((size * Math.sqrt(3))/2)));
+            ctx.lineTo(x+size, y + size);
+            ctx.lineTo(x, y+size);
+            ctx.fill();
+            break;
+          case 2:
+            ctx.beginPath();
+            ctx.lineTo(x+((size * Math.sqrt(3))/2), y+size/2);
+            ctx.lineTo(x, y+size);
+            ctx.lineTo(x, y);
+            ctx.fill();
+            break;
+          case 3:
+            ctx.beginPath();
+            ctx.moveTo(x+size, y);
+            ctx.lineTo(x+(size-((size * Math.sqrt(3))/2)), y+size/2);
+            ctx.lineTo(x+size, y+size);
+            ctx.lineTo(x+size, y);
+            ctx.fill();
+            break;
+        }
+  }
+
+  function drawCircle(x,y, size){
+    ctx.beginPath();
+    ctx.arc(x+size/2, y+size/2, size/2, 0, Math.PI * 2, true);
+    ctx.fill();
+  }
+
+  function drawSquare(x,y,size){
+    ctx.fillRect(x, y, size, size);
+  }
+
 
   function changePixelSize(param){ 
     if(param == "+" && speedCounter != speeds.length-1){
@@ -188,63 +258,6 @@
   
   }
   
-  function drawEasterEgg(){
-    var x = 0;
-    var y = 0;
-    var code ="0011144458877700001114445887770000222336588777000022233658877700005887773362880000588777336288000058877744428800005887774442880000444288777577000044428877757700003362887775770000336288777577000077758811133600007775881113360000777588422444000077758842244400";
-
-    ctx.clearRect(0, 0, c.width, c.height);
-    var pixelSize = Math.round(c.height/(Math.sqrt(code.length)));
-    for(var i = 0; i < code.length; i++){
-      switch(code[i]){
-        case '0':
-          ctx.fillStyle = "#ffffff"; //white
-          break;
-
-        case '1':
-          ctx.fillStyle = "#aa814d"; //brownish-yellow
-          break;
-
-        case '2':
-          ctx.fillStyle = "#bd7a46"; //orange
-          break;
-
-        case '3':
-          ctx.fillStyle = "#bb9d69"; //yellow
-          break;
-
-        case '4':
-          ctx.fillStyle = "#b25858"; //light red
-          break;
-
-        case '5':
-          ctx.fillStyle = "#b02218"; //red
-          break;
-
-        case '6':
-          ctx.fillStyle = "#454c5f"; //denim/blue
-          break;
-
-        case '7':
-          ctx.fillStyle = "#131313"; //dark
-          break;
-
-        case '8':
-          ctx.fillStyle = "#f3efc9"; //cream
-          break;
-      }
-      ctx.fillRect(x,y,pixelSize,pixelSize);
-      if(x >= c.width-pixelSize){
-        x = 0;
-        y += pixelSize;
-      }
-      else{
-        x += pixelSize;
-      }
-    }
-  }
-
-
   </script>
 </body>
 
